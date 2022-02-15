@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using Confluent.Kafka;
+﻿using Confluent.Kafka;
 
 var conf = new ConsumerConfig
 {
@@ -29,10 +28,8 @@ try
         try
         {
             var cr = c.Consume(cts.Token);
-            var messageRecord =
-                JsonSerializer.Deserialize<MessageRecord>(cr.Message.Value);
             Console.WriteLine(
-                $"Consumed message '{messageRecord?.Message}' created at {messageRecord?.MessageDate.ToString("g")}, at: '{cr.TopicPartitionOffset}'.");
+                $"Consumed message '{cr?.Message.Value}', at: '{cr?.TopicPartitionOffset}'");
         }
         catch (ConsumeException e)
         {

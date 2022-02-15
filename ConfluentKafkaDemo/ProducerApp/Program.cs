@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using Confluent.Kafka;
+﻿using Confluent.Kafka;
 
 var config = new ProducerConfig { BootstrapServers = "localhost:9092" };
 
@@ -12,12 +11,10 @@ try
     while (true)
     {
         Console.WriteLine("Produce new message: ");
-        var message = Console.ReadLine();
-        if (message != null)
+        var messageInput = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(messageInput) is false)
         {
-            var messageRecord = new MessageRecord(message, DateTime.Now);
-            var messageJson = JsonSerializer.Serialize(messageRecord);
-            var dr = await p.ProduceAsync("testTopic", new Message<Null, string> { Value = messageJson });
+            var dr = await p.ProduceAsync("testTopic", new Message<Null, string> { Value = messageInput });
             Console.WriteLine($"Delivered '{dr.Value}' to '{dr.TopicPartitionOffset}'");
         }
     }
@@ -26,5 +23,3 @@ catch (ProduceException<Null, string> e)
 {
     Console.WriteLine($"Delivery failed: {e.Error.Reason}");
 }
-
-internal record MessageRecord(string Message, DateTime MessageDate = new DateTime());
