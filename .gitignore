@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/ConfluentKafkaDemo/.vs/
+/ConfluentKafkaDemo/ConsumerClient1/bin/
+/ConfluentKafkaDemo/ConsumerClient1/obj
+/ConfluentKafkaDemo/ConsumerClient2/bin/
+/ConfluentKafkaDemo/ConsumerClient2/obj
+/ConfluentKafkaDemo/ProducerApp/bin/
+/ConfluentKafkaDemo/ProducerApp/obj
