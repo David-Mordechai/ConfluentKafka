@@ -32,8 +32,6 @@ internal class Main
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
-                if (e is OperationCanceledException)
-                    break;
             }
         }
     }
