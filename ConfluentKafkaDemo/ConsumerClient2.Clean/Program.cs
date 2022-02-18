@@ -1,15 +1,7 @@
-﻿using ConfluentKafkaDemo.Core;
-using ConfluentKafkaDemo.Core.Configuration;
-using ConfluentKafkaDemo.Infrastructure.Builder;
-
-var config = new ConsumerConfiguration
-{
-    GroupId = "test-consumer-group2",
-    BootstrapServers = "localhost:9092"
-};
-
-using IConsumerAdapter consumer = new ConsumerBuilderAdapter(config).Build();
-consumer.Subscribe("testTopic");
+﻿using ConfluentKafkaDemo.Infrastructure;
+using ConfluentKafkaDemo.Infrastructure.Kafka.Builder.Configurations;
+using ConsumerClient2.Clean;
+using Microsoft.Extensions.DependencyInjection;
 
 var cts = new CancellationTokenSource();
 
@@ -18,18 +10,17 @@ Console.CancelKeyPress += (_, e) => {
     cts.Cancel();
 };
 
-while (true)
+var config = new ConsumerConfiguration
 {
-    try
-    {
-        var cr = consumer.Consume(cts.Token);
-        Console.WriteLine(
-            $"Consumed message '{cr?.Message}', at: '{cr?.TopicPartitionOffset}'");
-    }
-    catch (Exception e)
-    {
-        Console.WriteLine($"Error occurred: {e.Message}");
-        if (e is OperationCanceledException)
-            break;
-    }
-}
+    GroupId = "test-consumer-group2",
+    BootstrapServers = "localhost:9092"
+};
+
+var services = new ServiceCollection();
+services.AddInfrastructureServices();
+services.AddConsumerServices(config);
+services
+    .AddSingleton<MessagesConsumerService, MessagesConsumerService>()
+    .BuildServiceProvider()
+    .GetRequiredService<MessagesConsumerService>()
+    .Execute("testTopic", cts.Token);
