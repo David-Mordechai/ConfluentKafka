@@ -1,6 +1,6 @@
 ﻿using Confluent.Kafka;
-using ConfluentKafkaDemo.Core.MessageBroker;
-using ConfluentKafkaDemo.Core.MessageBroker.Record;
+using ConfluentKafkaDemo.Application.MessageBroker;
+using ConfluentKafkaDemo.Application.MessageBroker.Record;
 
 namespace ConfluentKafkaDemo.Infrastructure.Kafka;
 

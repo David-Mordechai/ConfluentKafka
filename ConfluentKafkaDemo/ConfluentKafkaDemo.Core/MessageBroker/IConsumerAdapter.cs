@@ -1,6 +1,6 @@
-﻿using ConfluentKafkaDemo.Core.MessageBroker.Record;
+﻿using ConfluentKafkaDemo.Application.MessageBroker.Record;
 
-namespace ConfluentKafkaDemo.Core.MessageBroker;
+namespace ConfluentKafkaDemo.Application.MessageBroker;
 
 public interface IConsumerAdapter : IDisposable
 {

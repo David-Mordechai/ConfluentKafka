@@ -1,4 +1,4 @@
-﻿using ConfluentKafkaDemo.Core.Logger;
+﻿using ConfluentKafkaDemo.Application.Logger;
 
 namespace ConfluentKafkaDemo.Infrastructure.Logger;
 

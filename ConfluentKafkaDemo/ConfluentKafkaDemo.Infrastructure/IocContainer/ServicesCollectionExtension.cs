@@ -1,6 +1,6 @@
-﻿using ConfluentKafkaDemo.Core.Logger;
-using ConfluentKafkaDemo.Core.Logic;
-using ConfluentKafkaDemo.Core.MessageBroker;
+﻿using ConfluentKafkaDemo.Application.Logger;
+using ConfluentKafkaDemo.Application.Logic;
+using ConfluentKafkaDemo.Application.MessageBroker;
 using ConfluentKafkaDemo.Infrastructure.Kafka;
 using ConfluentKafkaDemo.Infrastructure.Kafka.Builder;
 using ConfluentKafkaDemo.Infrastructure.Kafka.Builder.Configurations;

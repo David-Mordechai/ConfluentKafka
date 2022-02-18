@@ -1,7 +1,7 @@
-﻿using ConfluentKafkaDemo.Core.Logger;
-using ConfluentKafkaDemo.Core.MessageBroker.Record;
+﻿using ConfluentKafkaDemo.Application.Logger;
+using ConfluentKafkaDemo.Application.MessageBroker.Record;
 
-namespace ConfluentKafkaDemo.Core.Logic
+namespace ConfluentKafkaDemo.Application.Logic
 {
     public class MessageProcessor : IMessageProcessor
     {

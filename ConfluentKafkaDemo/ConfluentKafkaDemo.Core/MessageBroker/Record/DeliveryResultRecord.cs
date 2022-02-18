@@ -1,4 +1,4 @@
-﻿namespace ConfluentKafkaDemo.Core.MessageBroker.Record;
+﻿namespace ConfluentKafkaDemo.Application.MessageBroker.Record;
 
 public record DeliveryResultRecord(string Message, string TopicPartitionOffset)
 {

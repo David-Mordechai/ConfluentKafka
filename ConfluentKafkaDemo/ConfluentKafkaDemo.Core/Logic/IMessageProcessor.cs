@@ -1,6 +1,6 @@
-﻿using ConfluentKafkaDemo.Core.MessageBroker.Record;
+﻿using ConfluentKafkaDemo.Application.MessageBroker.Record;
 
-namespace ConfluentKafkaDemo.Core.Logic
+namespace ConfluentKafkaDemo.Application.Logic
 {
     public interface IMessageProcessor
     {

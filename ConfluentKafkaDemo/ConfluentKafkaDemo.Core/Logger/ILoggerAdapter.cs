@@ -1,4 +1,4 @@
-﻿namespace ConfluentKafkaDemo.Core.Logger;
+﻿namespace ConfluentKafkaDemo.Application.Logger;
 
 public interface ILoggerAdapter
 {
