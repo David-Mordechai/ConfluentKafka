@@ -12,11 +12,11 @@ internal class ProducerAdapter : IProducerAdapter
         _producer = producer;
     }
 
-    public async Task<DeliveryResultRecord> ProduceAsync(string topic, string message)
+    public async Task<DeliveryResultRecord> ProduceAsync(string topic, MessageRecord message)
     {
         try
         {
-            var dr = await _producer.ProduceAsync("testTopic", new Message<Null, string> { Value = message });
+            var dr = await _producer.ProduceAsync(topic, new Message<Null, string> { Value = message.Value });
             return new DeliveryResultRecord(
                 Message: dr.Message.Value,
                 TopicPartitionOffset:
