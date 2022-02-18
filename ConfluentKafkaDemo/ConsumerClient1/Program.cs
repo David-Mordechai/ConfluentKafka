@@ -31,7 +31,7 @@ try
         }
         catch (ConsumeException e) // kafka exception
         {
-            // log error 
+            // log error, limited to console logger
             Console.WriteLine($"Error occurred: {e.Error.Reason}");
         }
     }

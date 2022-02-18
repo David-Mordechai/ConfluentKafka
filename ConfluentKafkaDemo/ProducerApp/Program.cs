@@ -1,30 +1,49 @@
-﻿using Confluent.Kafka; // Kafka framework dependency in our Application logic
+﻿#region 
+// Kafka framework dependency in our Application logic
+#endregion
+using Confluent.Kafka;
 
-var config = new ProducerConfig { BootstrapServers = "localhost:9092" }; // Kafka configuration in our Application logic
+#region 
+// Kafka configuration in our Application logic
+#endregion
+var config = new ProducerConfig { BootstrapServers = "localhost:9092" };
 
-using var p = new ProducerBuilder<Null, string>(config).Build(); // Kafka framework creating producer
-try // our application logic begin here
+#region
+// Kafka framework creating producer
+#endregion
+using var p = new ProducerBuilder<Null, string>(config).Build(); 
+try
 {
     while (true)
     {
-        Console.WriteLine("Produce new message: "); // prompt user to produce a message
+        Console.WriteLine("Produce new message: ");
         var messageInput = Console.ReadLine();
         if (string.IsNullOrWhiteSpace(messageInput) is false)
         {
-            // in the middle of our application logic we have Kafka another case of Kafka logic
-            var dr = await p.ProduceAsync("testTopic", new Message<Null, string> { Value = messageInput }); 
-            
-            // log produce message result
+            #region 
+            // in the middle of our application logic we have another case of Kafka logic
+            #endregion
+            var dr = await p.ProduceAsync("testTopic", new Message<Null, string> { Value = messageInput });
+
+            #region 
+            // log produce message result => SRP
+            #endregion
             Console.WriteLine($"Delivered '{dr.Value}' to '{dr.TopicPartitionOffset}'");
         }
     }
 }
-catch (ProduceException<Null, string> e) // Kafka related exception 
+#region 
+// Kafka related exception 
+#endregion
+catch (ProduceException<Null, string> e) 
 {
-    // log error 
+    #region 
+    // log error, limited to console logger
+    #endregion
     Console.WriteLine($"Delivery failed: {e.Error.Reason}");
 }
-
+#region 
 // Violation of all S.O.L.I.D principals
 // Code is not readable, has many hidden intentions, poor naming 
 // Code Tightly couple to the Confluent.Kafka framework 
+#endregion

@@ -7,7 +7,7 @@ using ConfluentKafkaDemo.Infrastructure.Kafka.Builder.Configurations;
 using ConfluentKafkaDemo.Infrastructure.Logger;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ConfluentKafkaDemo.Infrastructure;
+namespace ConfluentKafkaDemo.Infrastructure.IocContainer;
 
 public static class ServicesCollectionExtension
 {
