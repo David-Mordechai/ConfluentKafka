@@ -1,8 +1,7 @@
-﻿namespace ConfluentKafkaDemo.Application.Logger;
+﻿namespace MessageBroker.Core.Logger;
 
-public interface ILoggerAdapter
+public interface ILoggerAdapter<T>
 {
-    void LogInformation(string log);
-    void LogError(string error);
-
+    void LogInformation(string message, params object[] args);
+    void LogError(string message, params object[] args);
 }

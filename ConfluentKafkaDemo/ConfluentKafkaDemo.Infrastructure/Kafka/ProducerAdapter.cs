@@ -1,23 +1,24 @@
 ﻿using Confluent.Kafka;
-using ConfluentKafkaDemo.Application.MessageBroker;
-using ConfluentKafkaDemo.Application.MessageBroker.Record;
+using MessageBroker.Core.Models;
+using MessageBroker.Core.Services.Interfaces;
+using MessageBroker.Infrastructure.Kafka.Builder;
 
-namespace ConfluentKafkaDemo.Infrastructure.Kafka;
+namespace MessageBroker.Infrastructure.Kafka;
 
 internal class ProducerAdapter : IProducerAdapter
 {
     private readonly IProducer<Null, string> _producer;
-    public ProducerAdapter(IProducer<Null, string> producer)
+    public ProducerAdapter(ProducerBuilderAdapter producerBuilder)
     {
-        _producer = producer;
+        _producer = producerBuilder.Build();
     }
 
-    public async Task<DeliveryResultRecord> ProduceAsync(string topic, MessageRecord message)
+    public async Task<DeliveryResultModel?> ProduceAsync(string topic, MessageModel message)
     {
         try
         {
             var dr = await _producer.ProduceAsync(topic, new Message<Null, string> { Value = message.Value });
-            return new DeliveryResultRecord(
+            return new DeliveryResultModel(
                 Message: dr.Message.Value,
                 TopicPartitionOffset:
                 $"{dr.TopicPartitionOffset.Topic} [{dr.TopicPartitionOffset.Partition}] @{dr.TopicPartitionOffset.Offset}");

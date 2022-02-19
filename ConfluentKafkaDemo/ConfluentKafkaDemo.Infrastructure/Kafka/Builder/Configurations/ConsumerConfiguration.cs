@@ -1,4 +1,4 @@
-﻿namespace ConfluentKafkaDemo.Infrastructure.Kafka.Builder.Configurations;
+﻿namespace MessageBroker.Infrastructure.Kafka.Builder.Configurations;
 
 public class ConsumerConfiguration
 {

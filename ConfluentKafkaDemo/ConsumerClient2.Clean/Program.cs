@@ -1,6 +1,8 @@
-﻿using ConfluentKafkaDemo.Application.MessageBroker.Services.Interfaces;
-using ConfluentKafkaDemo.Infrastructure.IocContainer;
-using ConfluentKafkaDemo.Infrastructure.Kafka.Builder.Configurations;
+﻿using MessageBroker.Core.Logic.Interfaces;
+using MessageBroker.Core.Models;
+using MessageBroker.Core.Services.Interfaces;
+using MessageBroker.Infrastructure.IocContainer;
+using MessageBroker.Infrastructure.Kafka.Builder.Configurations;
 using Microsoft.Extensions.DependencyInjection;
 
 var cts = new CancellationTokenSource();
@@ -17,9 +19,20 @@ var config = new ConsumerConfiguration
 };
 
 var services = new ServiceCollection();
-services.AddInfrastructureCommonServices();
-services.AddInfrastructureConsumerServices(config);
+services.AddMessageBrokerLoggerServices();
+services.AddMessageBrokerConsumerServices(config);
+services.AddScoped<IMessageProcessor, CustomMessageProcess>();
 var serviceProvider = services.BuildServiceProvider();
 
 var consumerService = serviceProvider.GetRequiredService<IConsumerService>();
-consumerService.Start("testTopic", cts.Token);
+consumerService.Subscribe("testTopic", cts.Token);
+
+
+internal class CustomMessageProcess : IMessageProcessor
+{
+    public bool Process(ConsumeResultModel message)
+    {
+        Console.WriteLine($"This is Custom message process, {message}");
+        return true;
+    }
+}

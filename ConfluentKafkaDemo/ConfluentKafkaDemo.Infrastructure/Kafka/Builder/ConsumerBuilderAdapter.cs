@@ -1,7 +1,7 @@
 ﻿using Confluent.Kafka;
-using ConfluentKafkaDemo.Infrastructure.Kafka.Builder.Configurations;
+using MessageBroker.Infrastructure.Kafka.Builder.Configurations;
 
-namespace ConfluentKafkaDemo.Infrastructure.Kafka.Builder;
+namespace MessageBroker.Infrastructure.Kafka.Builder;
 
 public class ConsumerBuilderAdapter 
 {

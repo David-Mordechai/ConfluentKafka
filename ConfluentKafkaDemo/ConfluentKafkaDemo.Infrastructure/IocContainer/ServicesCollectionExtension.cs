@@ -1,47 +1,58 @@
-﻿using ConfluentKafkaDemo.Application.InputOutput;
-using ConfluentKafkaDemo.Application.Logger;
-using ConfluentKafkaDemo.Application.MessageBroker;
-using ConfluentKafkaDemo.Application.MessageBroker.Logic;
-using ConfluentKafkaDemo.Application.MessageBroker.Logic.Interfaces;
-using ConfluentKafkaDemo.Application.MessageBroker.Services;
-using ConfluentKafkaDemo.Application.MessageBroker.Services.Interfaces;
-using ConfluentKafkaDemo.Application.MessageBroker.Validation;
-using ConfluentKafkaDemo.Application.MessageBroker.Validation.Interfaces;
-using ConfluentKafkaDemo.Infrastructure.Kafka;
-using ConfluentKafkaDemo.Infrastructure.Kafka.Builder;
-using ConfluentKafkaDemo.Infrastructure.Kafka.Builder.Configurations;
-using ConfluentKafkaDemo.Infrastructure.Logger;
-using ConfluentKafkaDemo.Infrastructure.WindowsConsole;
+﻿using MessageBroker.Core.Enums;
+using MessageBroker.Core.Logger;
+using MessageBroker.Core.Logic;
+using MessageBroker.Core.Logic.Interfaces;
+using MessageBroker.Core.Services;
+using MessageBroker.Core.Services.Interfaces;
+using MessageBroker.Core.Validation;
+using MessageBroker.Core.Validation.Interfaces;
+using MessageBroker.Infrastructure.InputOutput;
+using MessageBroker.Infrastructure.Kafka;
+using MessageBroker.Infrastructure.Kafka.Builder;
+using MessageBroker.Infrastructure.Kafka.Builder.Configurations;
+using MessageBroker.Infrastructure.Logger;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ConfluentKafkaDemo.Infrastructure.IocContainer;
+namespace MessageBroker.Infrastructure.IocContainer;
 
 public static class ServicesCollectionExtension
 {
-    public static void AddInfrastructureCommonServices(this IServiceCollection services)
+    public static void AddMessageBrokerLoggerServices(this IServiceCollection services, 
+        LoggerType loggerType = LoggerType.ConsoleLogger)
     {
-        services.AddSingleton<ILoggerAdapter, ConsoleLogger>();
+        switch (loggerType)
+        {
+            case LoggerType.ConsoleLogger:
+                services.AddSingleton(typeof(ILoggerAdapter<>), typeof(ConsoleLogger<>));
+                break;
+            case LoggerType.DotnetLogger:
+                services.AddSingleton(typeof(ILoggerAdapter<>), typeof(DotnetLogger<>));
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(loggerType), loggerType, null);
+        }
     }
 
-    public static void AddInfrastructureProducerServices(this IServiceCollection services, 
+    public static void AddMessageBrokerProducerServices(this IServiceCollection services, 
         ProducerConfiguration producerConfiguration)
     {
-        services.AddSingleton<IProducerService, ProducerService>();
-        services.AddSingleton<IConsoleAdapter, ConsoleAdapter>();
-        services.AddSingleton<IGenerateMessage, GenerateMessageFromConsole>();
-        services.AddSingleton<IMessageValidator, StringMessageValidator>();
-
-        services.AddSingleton<IProducerAdapter>(new ProducerAdapter(
-            new ProducerBuilderAdapter(producerConfiguration).Build()));
+        services.AddScoped<IProducerService, ProducerService>();
+        services.AddScoped<IGenerateMessage, GenerateMessageFromConsole>();
+        services.AddScoped<IMessageValidator, StringMessageValidator>();
+        services.AddScoped(_ => new ProducerBuilderAdapter(producerConfiguration));
+        services.AddScoped<IProducerAdapter, ProducerAdapter>();
     }
 
-    public static void AddInfrastructureConsumerServices(this IServiceCollection services, 
+    public static void AddMessageBrokerConsumerServices(this IServiceCollection services, 
         ConsumerConfiguration consumerConfiguration)
     {
-        services.AddSingleton<IConsumerService, ConsumerService>();
-        services.AddSingleton<IMessageProcessor, MessageProcessor>();
-        
-        services.AddSingleton<IConsumerAdapter> (new ConsumerAdapter(
-            new ConsumerBuilderAdapter(consumerConfiguration).Build()));
+        services.AddScoped<IConsumerService, ConsumerService>();
+        services.AddScoped(_ => new ConsumerBuilderAdapter(consumerConfiguration));
+        services.AddScoped<IConsumerAdapter, ConsumerAdapter>();
+    }
+
+    public static void AddConsumedMessageDefaultProcessorService(this IServiceCollection services)
+    {
+        services.AddScoped<IMessageProcessor, MessageProcessor>();
     }
 }

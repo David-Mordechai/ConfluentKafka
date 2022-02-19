@@ -1,16 +1,16 @@
-﻿using ConfluentKafkaDemo.Application.Logger;
+﻿using MessageBroker.Core.Logger;
 
-namespace ConfluentKafkaDemo.Infrastructure.Logger;
+namespace MessageBroker.Infrastructure.Logger;
 
-public class ConsoleLogger : ILoggerAdapter
+public class ConsoleLogger<T> : ILoggerAdapter<T>
 {
-    public void LogInformation(string log)
+    public void LogInformation(string message, params object[] args)
     {
-        Console.WriteLine($"Information: {log}");
+        Console.WriteLine($"Information: {message}");
     }
 
-    public void LogError(string error)
+    public void LogError(string message, params object[] args)
     {
-        Console.WriteLine($"Error occurred: {error}");
+        Console.WriteLine($"Error occurred: {message}");
     }
 }

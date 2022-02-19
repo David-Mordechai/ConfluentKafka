@@ -1,16 +1,17 @@
 ﻿using Confluent.Kafka;
-using ConfluentKafkaDemo.Application.MessageBroker;
-using ConfluentKafkaDemo.Application.MessageBroker.Record;
+using MessageBroker.Core.Models;
+using MessageBroker.Core.Services.Interfaces;
+using MessageBroker.Infrastructure.Kafka.Builder;
 
-namespace ConfluentKafkaDemo.Infrastructure.Kafka;
+namespace MessageBroker.Infrastructure.Kafka;
 
 internal class ConsumerAdapter : IConsumerAdapter
 {
     private readonly IConsumer<Ignore, string> _consumer;
 
-    public ConsumerAdapter(IConsumer<Ignore, string> consumer)
+    public ConsumerAdapter(ConsumerBuilderAdapter consumerBuilder)
     {
-        _consumer = consumer;
+        _consumer = consumerBuilder.Build();
     }
 
     public void Subscribe(string topic)
@@ -18,12 +19,12 @@ internal class ConsumerAdapter : IConsumerAdapter
         _consumer.Subscribe(topic);
     }
 
-    public ConsumeResultRecord Consume(CancellationToken cancellationToken)
+    public ConsumeResultModel Consume(CancellationToken cancellationToken)
     {
         try
         {
             var consumeResult = _consumer.Consume(cancellationToken);
-            return new ConsumeResultRecord(
+            return new ConsumeResultModel(
                 Message: consumeResult.Message.Value,
                 TopicPartitionOffset:
                 $"{consumeResult.TopicPartitionOffset.Topic} [{consumeResult.TopicPartitionOffset.Partition}] @{consumeResult.TopicPartitionOffset.Offset}");

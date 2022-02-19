@@ -1,6 +1,6 @@
-﻿using ConfluentKafkaDemo.Application.MessageBroker.Services.Interfaces;
-using ConfluentKafkaDemo.Infrastructure.IocContainer;
-using ConfluentKafkaDemo.Infrastructure.Kafka.Builder.Configurations;
+﻿using MessageBroker.Core.Services.Interfaces;
+using MessageBroker.Infrastructure.IocContainer;
+using MessageBroker.Infrastructure.Kafka.Builder.Configurations;
 using Microsoft.Extensions.DependencyInjection;
 
 var cts = new CancellationTokenSource();
@@ -17,9 +17,10 @@ var config = new ConsumerConfiguration
 };
 
 var services = new ServiceCollection();
-services.AddInfrastructureCommonServices();
-services.AddInfrastructureConsumerServices(config);
+services.AddMessageBrokerLoggerServices();
+services.AddMessageBrokerConsumerServices(config);
+services.AddConsumedMessageDefaultProcessorService();
 var serviceProvider = services.BuildServiceProvider();
 
 var consumerService = serviceProvider.GetRequiredService<IConsumerService>();
-consumerService.Start("testTopic", cts.Token);
+consumerService.Subscribe("testTopic", cts.Token);
