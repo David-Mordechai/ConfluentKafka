@@ -9,17 +9,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsumerClient1", "Consumer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsumerClient2", "ConsumerClient2\ConsumerClient2.csproj", "{2D327C78-2FF0-4E0B-BABF-9A0B8FA8B535}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageBroker.Infrastructure", "ConfluentKafkaDemo.Infrastructure\MessageBroker.Infrastructure.csproj", "{EF392708-38CD-441C-A81A-2E3C621AD653}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageBroker.Infrastructure", "MessageBroker.Infrastructure\MessageBroker.Infrastructure.csproj", "{EF392708-38CD-441C-A81A-2E3C621AD653}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageBroker.Core", "ConfluentKafkaDemo.Core\MessageBroker.Core.csproj", "{995F2660-8439-404C-A64A-5D3789E698E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageBroker.Core", "MessageBroker.Core\MessageBroker.Core.csproj", "{995F2660-8439-404C-A64A-5D3789E698E3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProducerApp.Console", "ProducerApp.Clean\ProducerApp.Console.csproj", "{F13B0FE3-FB5D-44A6-B46D-83FC1592FD97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProducerApp.Console", "ProducerApp.Console\ProducerApp.Console.csproj", "{F13B0FE3-FB5D-44A6-B46D-83FC1592FD97}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CleanArchitecture", "CleanArchitecture", "{E8B318AE-C216-4CCC-A4F8-F13B5A21805B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsumerClient.Console", "ConsumerClient1.Clean\ConsumerClient.Console.csproj", "{115CA313-5A32-4DB1-A2D8-830085816679}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsumerClient.Console", "ConsumerClient.Console\ConsumerClient.Console.csproj", "{115CA313-5A32-4DB1-A2D8-830085816679}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsumerClient.Console2", "ConsumerClient2.Clean\ConsumerClient.Console2.csproj", "{2EB7E8F4-26BE-4BA1-B88E-5F9CA4681BF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsumerClient.Console2", "ConsumerClient.Console2\ConsumerClient.Console2.csproj", "{2EB7E8F4-26BE-4BA1-B88E-5F9CA4681BF6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BadCode", "BadCode", "{3B088AB4-CBF6-41C0-981E-305404F05BFB}"
 EndProject
