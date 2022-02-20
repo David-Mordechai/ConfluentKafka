@@ -22,3 +22,5 @@
 /ConfluentKafkaDemo/MessageBroker.Infrastructure/obj
 /ConfluentKafkaDemo/ProducerApp.Console/bin
 /ConfluentKafkaDemo/ProducerApp.Console/obj
+/ConfluentKafkaDemo/ConsumerClient.Wpf/bin
+/ConfluentKafkaDemo/ConsumerClient.Wpf/obj

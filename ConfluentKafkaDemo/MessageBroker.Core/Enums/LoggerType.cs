@@ -1,8 +1,7 @@
-﻿namespace MessageBroker.Core.Enums
+﻿namespace MessageBroker.Core.Enums;
+
+public enum LoggerType
 {
-    public enum LoggerType
-    {
-        ConsoleLogger,
-        DotnetLogger
-    }
+    ConsoleLogger,
+    DotnetLogger
 }
