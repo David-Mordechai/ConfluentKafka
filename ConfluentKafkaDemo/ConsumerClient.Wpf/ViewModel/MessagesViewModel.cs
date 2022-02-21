@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using MessageBroker.Core.Logic.Interfaces;
 using MessageBroker.Core.Models;
+using MessageBroker.Core.Services.Interfaces;
 
 namespace ConsumerClient.Wpf.ViewModel;
 

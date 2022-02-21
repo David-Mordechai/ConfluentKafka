@@ -1,8 +1,8 @@
 ﻿using MessageBroker.Core.Logger;
-using MessageBroker.Core.Logic.Interfaces;
 using MessageBroker.Core.Models;
+using MessageBroker.Core.Services.Interfaces;
 
-namespace MessageBroker.Core.Logic;
+namespace ConsumerClient.Console;
 
 public class MessageProcessor : IMessageProcessor
 {

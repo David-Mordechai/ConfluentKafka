@@ -1,5 +1,4 @@
 ﻿using MessageBroker.Core.Logger;
-using MessageBroker.Core.Logic.Interfaces;
 using MessageBroker.Core.Services.Interfaces;
 
 namespace MessageBroker.Core.Services;

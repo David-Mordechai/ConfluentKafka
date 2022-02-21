@@ -1,12 +1,9 @@
 ﻿using MessageBroker.Core.Enums;
 using MessageBroker.Core.Logger;
-using MessageBroker.Core.Logic;
-using MessageBroker.Core.Logic.Interfaces;
 using MessageBroker.Core.Services;
 using MessageBroker.Core.Services.Interfaces;
 using MessageBroker.Core.Validation;
 using MessageBroker.Core.Validation.Interfaces;
-using MessageBroker.Infrastructure.InputOutput;
 using MessageBroker.Infrastructure.Kafka;
 using MessageBroker.Infrastructure.Kafka.Builder;
 using MessageBroker.Infrastructure.Kafka.Builder.Configurations;
@@ -37,7 +34,6 @@ public static class ServicesCollectionExtension
         ProducerConfiguration producerConfiguration)
     {
         services.AddScoped<IProducerService, ProducerService>();
-        services.AddScoped<IGenerateMessage, GenerateMessageFromConsole>();
         services.AddScoped<IMessageValidator, StringMessageValidator>();
         services.AddScoped(_ => new ProducerBuilderAdapter(producerConfiguration));
         services.AddScoped<IProducerAdapter, ProducerAdapter>();
@@ -49,10 +45,5 @@ public static class ServicesCollectionExtension
         services.AddScoped<IConsumerService, ConsumerService>();
         services.AddScoped(_ => new ConsumerBuilderAdapter(consumerConfiguration));
         services.AddScoped<IConsumerAdapter, ConsumerAdapter>();
-    }
-
-    public static void AddConsumedMessageDefaultProcessorService(this IServiceCollection services)
-    {
-        services.AddScoped<IMessageProcessor, MessageProcessor>();
     }
 }

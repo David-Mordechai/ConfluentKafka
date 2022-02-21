@@ -1,6 +1,6 @@
 ﻿using MessageBroker.Core.Models;
 
-namespace MessageBroker.Core.Logic.Interfaces;
+namespace MessageBroker.Core.Services.Interfaces;
 
 public interface IMessageProcessor
 {

@@ -1,8 +1,9 @@
-﻿using MessageBroker.Core.Logic.Interfaces;
+﻿using MessageBroker.Core.Models;
 using MessageBroker.Core.Services.Interfaces;
 using MessageBroker.Infrastructure.IocContainer;
 using MessageBroker.Infrastructure.Kafka.Builder.Configurations;
 using Microsoft.Extensions.DependencyInjection;
+
 
 var config = new ProducerConfiguration { BootstrapServers = "localhost:9092" };
 
@@ -12,7 +13,6 @@ services.AddMessageBrokerProducerServices(config);
 var serviceProvider = services.BuildServiceProvider();
 
 var producerService = serviceProvider.GetRequiredService<IProducerService>();
-var generateMessage = serviceProvider.GetRequiredService<IGenerateMessage>();
 
 var cts = new CancellationTokenSource();
 
@@ -23,6 +23,7 @@ Console.CancelKeyPress += (_, e) => {
 
 while (cts.IsCancellationRequested is false)
 {
-    var message = generateMessage.Generate();
+    Console.WriteLine("Produce new message: ");
+    var message = new MessageModel(Value: Console.ReadLine() ?? string.Empty);
     await producerService.Produce(message, "testTopic");
 }

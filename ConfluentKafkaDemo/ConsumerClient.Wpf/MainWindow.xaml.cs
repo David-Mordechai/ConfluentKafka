@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Data;
 using ConsumerClient.Wpf.ViewModel;
-using MessageBroker.Core.Logic.Interfaces;
+using MessageBroker.Core.Services.Interfaces;
 
 namespace ConsumerClient.Wpf;
 

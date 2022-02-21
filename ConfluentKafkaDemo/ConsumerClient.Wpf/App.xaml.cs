@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.Windows;
 using ConsumerClient.Wpf.ViewModel;
-using MessageBroker.Core.Logic.Interfaces;
 using MessageBroker.Core.Services.Interfaces;
 using MessageBroker.Infrastructure.IocContainer;
 using MessageBroker.Infrastructure.Kafka.Builder.Configurations;

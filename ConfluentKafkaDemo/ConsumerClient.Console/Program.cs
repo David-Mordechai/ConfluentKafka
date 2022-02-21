@@ -1,4 +1,5 @@
-﻿using MessageBroker.Core.Services.Interfaces;
+﻿using ConsumerClient.Console;
+using MessageBroker.Core.Services.Interfaces;
 using MessageBroker.Infrastructure.IocContainer;
 using MessageBroker.Infrastructure.Kafka.Builder.Configurations;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +20,7 @@ var config = new ConsumerConfiguration
 var services = new ServiceCollection();
 services.AddMessageBrokerLoggerServices();
 services.AddMessageBrokerConsumerServices(config);
-services.AddConsumedMessageDefaultProcessorService();
+services.AddScoped<IMessageProcessor, MessageProcessor>();
 var serviceProvider = services.BuildServiceProvider();
 
 var consumerService = serviceProvider.GetRequiredService<IConsumerService>();
