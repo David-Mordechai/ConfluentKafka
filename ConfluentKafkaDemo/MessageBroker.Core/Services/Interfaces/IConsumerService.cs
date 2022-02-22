@@ -2,5 +2,5 @@
 
 public interface IConsumerService
 {
-    void Subscribe(string messageType, CancellationToken cancellationToken);
+    void Subscribe(string topic, CancellationToken cancellationToken);
 }

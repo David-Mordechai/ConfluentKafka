@@ -13,9 +13,9 @@ public class MessageProcessor : IMessageProcessor
         _logger = logger;
     }
 
-    public bool Process(ConsumeResultModel message)
+    public (bool success, string errorMessage) Process(ConsumeResultModel message)
     {
         _logger.LogInformation(message.ToString());
-        return true;
+        return (success: true, errorMessage: string.Empty);
     }
 }

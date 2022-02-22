@@ -4,5 +4,5 @@ namespace MessageBroker.Core.Services.Interfaces;
 
 public interface IMessageProcessor
 {
-    bool Process(ConsumeResultModel message);
+    (bool success, string errorMessage) Process(ConsumeResultModel message);
 }

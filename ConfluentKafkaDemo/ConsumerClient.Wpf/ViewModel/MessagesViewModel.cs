@@ -17,12 +17,12 @@ internal class MessagesViewModel : IMessageProcessor
 
     public ObservableCollection<MessageRecord> Messages { get; } = new();
     
-    public bool Process(ConsumeResultModel message)
+    public (bool success, string errorMessage) Process(ConsumeResultModel message)
     {
         _logger.LogInformation($"New message arrived! - {message}");
         Messages.Add(new MessageRecord(message.ToString()));
         _logger.LogInformation($"Message consumed! - {message}");
-        return true;
+        return (success: true, errorMessage: string.Empty);
     }
 }
 

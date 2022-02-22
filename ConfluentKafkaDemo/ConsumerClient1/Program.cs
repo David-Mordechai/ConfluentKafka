@@ -35,7 +35,7 @@ try
             var cr = c.Consume(cts.Token);
 
             #region
-            // process message => Violation of SRP, OPC
+            // process message => Violation of SRP, OCP
             #endregion
             Console.WriteLine(
                 $"Consumed message '{cr?.Message.Value}', at: '{cr?.TopicPartitionOffset}'");

@@ -19,14 +19,18 @@ public class ProducerService : IProducerService
         _messageValidator = messageValidator;
     }
 
-    public async Task<DeliveryResultModel?> Produce(MessageModel message, string messageType)
+    public async Task<DeliveryResultModel> Produce(MessageModel message, string topic)
     {
         try
         {
-            if (_messageValidator.Valid(message.Value) is false) 
-                return null;
+            if (_messageValidator.Valid(message.Value) is false)
+                return new DeliveryResultModel
+                {
+                    Success = false,
+                    ErrorMessage = "Input is not valid."
+                };
 
-            var deliveryResult = await _producer.ProduceAsync(messageType, message);
+            var deliveryResult = await _producer.ProduceAsync(topic, message);
             _logger.LogInformation($"Delivery success: {deliveryResult}");
 
             return deliveryResult;
@@ -34,7 +38,11 @@ public class ProducerService : IProducerService
         catch (Exception e)
         {
             _logger.LogError($"Delivery failed: {e.Message}");
-            return null;
+            return new DeliveryResultModel
+            {
+                Success = false,
+                ErrorMessage = "Delivery failed."
+            }; 
         }
     }
 }

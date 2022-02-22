@@ -23,7 +23,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapPut("/produceMessage", async ([FromServices] IProducerService producerService, MessageModel message) =>
+app.MapPost("/produceMessage", async ([FromServices] IProducerService producerService, MessageModel message) =>
 {
     await producerService.Produce(message, "testTopic");
     return Results.Ok();

@@ -36,7 +36,7 @@ internal class ConsumerAdapter : IConsumerAdapter
                 case OperationCanceledException:
                     // Ensure the consumer leaves the group cleanly and final offsets are committed.
                     _consumer.Close();
-                    throw new OperationCanceledException("Operation was canceled.");
+                    throw new Exception("Operation was canceled.");
                 case ConsumeException exception:
                     throw new Exception(exception.Error.Reason);
                 default:

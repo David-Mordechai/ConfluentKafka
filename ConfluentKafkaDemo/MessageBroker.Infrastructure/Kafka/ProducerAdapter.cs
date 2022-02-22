@@ -13,15 +13,18 @@ internal class ProducerAdapter : IProducerAdapter
         _producer = producerBuilder.Build();
     }
 
-    public async Task<DeliveryResultModel?> ProduceAsync(string topic, MessageModel message)
+    public async Task<DeliveryResultModel> ProduceAsync(string topic, MessageModel message)
     {
         try
         {
             var dr = await _producer.ProduceAsync(topic, new Message<Null, string> { Value = message.Value });
-            return new DeliveryResultModel(
-                Message: dr.Message.Value,
-                TopicPartitionOffset:
-                $"{dr.TopicPartitionOffset.Topic} [{dr.TopicPartitionOffset.Partition}] @{dr.TopicPartitionOffset.Offset}");
+            return new DeliveryResultModel
+            {
+                Message = dr.Message.Value,
+                TopicPartitionOffset =
+                    $"{dr.TopicPartitionOffset.Topic} [{dr.TopicPartitionOffset.Partition}] @{dr.TopicPartitionOffset.Offset}",
+                Success = true
+            };
         }
         catch (Exception e)
         {
