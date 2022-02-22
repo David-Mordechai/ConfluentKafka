@@ -23,7 +23,7 @@ Console.CancelKeyPress += (_, e) => {
 
 while (cts.IsCancellationRequested is false)
 {
-    Console.WriteLine("Produce new message: ");
+    Console.Write("Produce new message: ");
     var message = new MessageModel(Value: Console.ReadLine() ?? string.Empty);
     await producerService.Produce(message, "testTopic");
 }
