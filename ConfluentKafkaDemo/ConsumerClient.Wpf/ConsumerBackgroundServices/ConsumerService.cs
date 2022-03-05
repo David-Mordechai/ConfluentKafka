@@ -4,15 +4,15 @@ using MessageBroker.Core.Logger;
 using MessageBroker.Core.Services.Interfaces;
 using Microsoft.Extensions.Hosting;
 
-namespace ConsumerClient.Wpf.BackgroundServices;
+namespace ConsumerClient.Wpf.ConsumerBackgroundServices;
 
-public class ConsumerBackgroundService : BackgroundService
+public class ConsumerService : BackgroundService
 {
-    private readonly ILoggerAdapter<ConsumerBackgroundService> _logger;
+    private readonly ILoggerAdapter<ConsumerService> _logger;
     private readonly IConsumerService _consumerService;
 
-    public ConsumerBackgroundService(
-        ILoggerAdapter<ConsumerBackgroundService> logger,
+    public ConsumerService(
+        ILoggerAdapter<ConsumerService> logger,
         IConsumerService consumerService)
     {
         _logger = logger;

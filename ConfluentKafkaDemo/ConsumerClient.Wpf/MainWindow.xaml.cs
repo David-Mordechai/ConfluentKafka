@@ -1,19 +1,16 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Data;
+﻿using System.Windows.Data;
 using ConsumerClient.Wpf.ViewModel;
-using MessageBroker.Core.Services.Interfaces;
 
 namespace ConsumerClient.Wpf;
 
 public partial class MainWindow
 {
     private readonly object _locker = new();
-    public MainWindow(IMessageProcessor messageProcessor)
+    public MainWindow(MessagesViewModel messagesViewModel)
     {
         InitializeComponent();
-        var viewModel = messageProcessor as MessagesViewModel;
-        DataContext = viewModel;
-        var messagesList = viewModel?.Messages ?? new ObservableCollection<MessagesViewModel.MessageRecord>();
+        DataContext = messagesViewModel;
+        var messagesList = messagesViewModel.Messages;
         BindingOperations.EnableCollectionSynchronization(messagesList, _locker);
     }
 }

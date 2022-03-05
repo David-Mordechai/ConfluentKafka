@@ -1,5 +1,6 @@
 ﻿using System.Windows;
-using ConsumerClient.Wpf.BackgroundServices;
+using ConsumerClient.Wpf.ConsumerBackgroundServices;
+using ConsumerClient.Wpf.ConsumerBackgroundServices.Logic;
 using ConsumerClient.Wpf.ViewModel;
 using MessageBroker.Core.Enums;
 using MessageBroker.Core.Services.Interfaces;
@@ -32,9 +33,10 @@ public partial class App
                         GroupId = "test-consumer-group2",
                         BootstrapServers = "localhost:9092"
                     });
-                services.AddScoped<IMessageProcessor, MessagesViewModel>();
+                services.AddScoped<IMessageProcessor, MessageProcessor>();
+                services.AddScoped<MessagesViewModel>();
                 services.AddSingleton<MainWindow>();
-                services.AddHostedService<ConsumerBackgroundService>();
+                services.AddHostedService<ConsumerService>();
             }).Build();
     }
 

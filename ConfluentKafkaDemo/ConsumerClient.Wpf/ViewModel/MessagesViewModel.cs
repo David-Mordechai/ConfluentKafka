@@ -1,28 +1,31 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using ConsumerClient.Wpf.ConsumerBackgroundServices.Logic;
+using ConsumerClient.Wpf.ConsumerBackgroundServices.Model;
 using MessageBroker.Core.Logger;
-using MessageBroker.Core.Models;
 using MessageBroker.Core.Services.Interfaces;
 
 namespace ConsumerClient.Wpf.ViewModel;
 
-internal class MessagesViewModel : IMessageProcessor
+public class MessagesViewModel
 {
     private readonly ILoggerAdapter<MessagesViewModel> _logger;
+    private readonly IMessageProcessor _messageProcessor;
 
-    public MessagesViewModel(ILoggerAdapter<MessagesViewModel> logger)
+    public MessagesViewModel(ILoggerAdapter<MessagesViewModel> logger,
+        IMessageProcessor messageProcessor)
     {
         _logger = logger;
+        _messageProcessor = messageProcessor;
+        Messages.CollectionChanged += Messages_CollectionChanged;
     }
-    internal record MessageRecord(string Message);
 
-    public ObservableCollection<MessageRecord> Messages { get; } = new();
-    
-    public (bool success, string errorMessage) Process(ConsumeResultModel message)
+    private void Messages_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        _logger.LogInformation($"New message arrived! - {message}");
-        Messages.Add(new MessageRecord(message.ToString()));
-        _logger.LogInformation($"Message consumed! - {message}");
-        return (success: true, errorMessage: string.Empty);
+        _logger.LogInformation("Messages collection changed, {e}", e.Action);
     }
+
+    public ObservableCollection<ConsumedMessage> Messages => 
+        ((IMessageProcessorMessages) _messageProcessor).Messages;
 }
 
