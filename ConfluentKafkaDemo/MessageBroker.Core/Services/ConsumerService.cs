@@ -21,20 +21,18 @@ public class ConsumerService : IConsumerService
     {
         _consumer.Subscribe(topic);
 
-        while (cancellationToken.IsCancellationRequested is false)
+        try
         {
-            try
+            _consumer.Consume(cancellationToken, consumeMessage =>
             {
-                var consumeResult = _consumer.Consume(cancellationToken);
-
-                var (success, errorMessage) = _messageProcessor.Process(consumeResult);
+                var (success, errorMessage) = _messageProcessor.Process(consumeMessage);
                 if (success is false)
                     _logger.LogError($"Fail to process message, {errorMessage}");
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-            }
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e.Message);
         }
     }
 }

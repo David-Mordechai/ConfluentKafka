@@ -5,5 +5,5 @@ namespace MessageBroker.Core.Services.Interfaces;
 public interface IConsumerAdapter : IDisposable
 {
     void Subscribe(string topic);
-    ConsumeResultModel Consume(CancellationToken cancellationToken);
+    void Consume(CancellationToken cancellationToken, Action<ConsumeResultModel> consumeMessageHandler);
 }

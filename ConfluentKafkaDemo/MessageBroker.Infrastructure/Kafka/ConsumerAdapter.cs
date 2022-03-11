@@ -19,28 +19,32 @@ internal class ConsumerAdapter : IConsumerAdapter
         _consumer.Subscribe(topic);
     }
 
-    public ConsumeResultModel Consume(CancellationToken cancellationToken)
+    public void Consume(CancellationToken cancellationToken, Action<ConsumeResultModel> consumeMessageHandler)
     {
-        try
+        while (cancellationToken.IsCancellationRequested is false)
         {
-            var consumeResult = _consumer.Consume(cancellationToken);
-            return new ConsumeResultModel(
-                Message: consumeResult.Message.Value,
-                TopicPartitionOffset:
-                $"{consumeResult.TopicPartitionOffset.Topic} [{consumeResult.TopicPartitionOffset.Partition}] @{consumeResult.TopicPartitionOffset.Offset}");
-        }
-        catch (Exception ex)
-        {
-            switch (ex)
+            try
             {
-                case OperationCanceledException:
-                    // Ensure the consumer leaves the group cleanly and final offsets are committed.
-                    _consumer.Close();
-                    throw new Exception("Operation was canceled.");
-                case ConsumeException exception:
-                    throw new Exception(exception.Error.Reason);
-                default:
-                    throw new Exception(ex.Message);
+                var consumeResult = _consumer.Consume(cancellationToken);
+                var consumeResultModel = new ConsumeResultModel(
+                    Message: consumeResult.Message.Value,
+                    TopicPartitionOffset:
+                    $"{consumeResult.TopicPartitionOffset.Topic} [{consumeResult.TopicPartitionOffset.Partition}] @{consumeResult.TopicPartitionOffset.Offset}");
+                consumeMessageHandler.Invoke(consumeResultModel);
+            }
+            catch (Exception ex)
+            {
+                switch (ex)
+                {
+                    case OperationCanceledException:
+                        // Ensure the consumer leaves the group cleanly and final offsets are committed.
+                        _consumer.Close();
+                        throw new Exception("Operation was canceled.");
+                    case ConsumeException exception:
+                        throw new Exception(exception.Error.Reason);
+                    default:
+                        throw new Exception(ex.Message);
+                }
             }
         }
     }
