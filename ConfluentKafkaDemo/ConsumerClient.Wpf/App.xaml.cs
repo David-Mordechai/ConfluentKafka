@@ -1,11 +1,14 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using ConsumerClient.Wpf.ConsumerBackgroundServices;
 using ConsumerClient.Wpf.ConsumerBackgroundServices.Logic;
 using ConsumerClient.Wpf.ViewModel;
+using MessageBroker.Core;
 using MessageBroker.Core.Enums;
 using MessageBroker.Core.Services.Interfaces;
 using MessageBroker.Infrastructure.IocContainer;
 using MessageBroker.Infrastructure.Kafka.Builder.Configurations;
+using MessageBroker.Infrastructure.Redis.Builder.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -27,12 +30,24 @@ public partial class App
             .ConfigureServices(services =>
             {
                 services.AddMessageBrokerLoggerServices(LoggerType.DotnetLogger);
-                services.AddMessageBrokerConsumerServices(
-                    new ConsumerConfiguration
-                    {
-                        GroupId = "test-consumer-group2",
-                        BootstrapServers = "localhost:9092"
-                    });
+                switch (GlobalConfiguration.BrokerType)
+                {
+                    case MessageBrokerType.Kafka:
+                        services.AddMessageBrokerConsumerServicesKafka(new KafkaConsumerConfiguration
+                        {
+                            GroupId = "test-consumer-group2",
+                            BootstrapServers = "localhost:9092"
+                        });
+                        break;
+                    case MessageBrokerType.Redis:
+                        services.AddMessageBrokerConsumerServicesRedis(new RedisConfiguration()
+                        {
+                            BootstrapServers = "127.0.0.1:6379"
+                        });
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
                 services.AddScoped<IMessageProcessor, MessageProcessor>();
                 services.AddScoped<MessagesViewModel>();
                 services.AddSingleton<MainWindow>();

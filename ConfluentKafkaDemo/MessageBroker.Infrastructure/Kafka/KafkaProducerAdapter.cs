@@ -5,12 +5,12 @@ using MessageBroker.Infrastructure.Kafka.Builder;
 
 namespace MessageBroker.Infrastructure.Kafka;
 
-internal class ProducerAdapter : IProducerAdapter
+internal class KafkaProducerAdapter : IProducerAdapter
 {
     private readonly IProducer<Null, string> _producer;
-    public ProducerAdapter(ProducerBuilderAdapter producerBuilder)
+    public KafkaProducerAdapter(KafkaProducerBuilderAdapter kafkaProducerBuilder)
     {
-        _producer = producerBuilder.Build();
+        _producer = kafkaProducerBuilder.Build();
     }
 
     public async Task<DeliveryResultModel> ProduceAsync(string topic, MessageModel message)
@@ -21,8 +21,6 @@ internal class ProducerAdapter : IProducerAdapter
             return new DeliveryResultModel
             {
                 Message = dr.Message.Value,
-                TopicPartitionOffset =
-                    $"{dr.TopicPartitionOffset.Topic} [{dr.TopicPartitionOffset.Partition}] @{dr.TopicPartitionOffset.Offset}",
                 Success = true
             };
         }

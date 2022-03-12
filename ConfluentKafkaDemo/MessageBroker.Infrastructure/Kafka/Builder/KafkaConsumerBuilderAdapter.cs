@@ -3,11 +3,11 @@ using MessageBroker.Infrastructure.Kafka.Builder.Configurations;
 
 namespace MessageBroker.Infrastructure.Kafka.Builder;
 
-public class ConsumerBuilderAdapter 
+public class KafkaConsumerBuilderAdapter 
 {
-    private readonly ConsumerConfiguration _configuration;
+    private readonly KafkaConsumerConfiguration _configuration;
 
-    public ConsumerBuilderAdapter(ConsumerConfiguration configuration)
+    public KafkaConsumerBuilderAdapter(KafkaConsumerConfiguration configuration)
     {
         _configuration = configuration;
     }

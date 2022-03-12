@@ -1,16 +1,35 @@
+using MessageBroker.Core;
 using MessageBroker.Core.Enums;
 using MessageBroker.Core.Models;
 using MessageBroker.Core.Services.Interfaces;
 using MessageBroker.Infrastructure.IocContainer;
 using MessageBroker.Infrastructure.Kafka.Builder.Configurations;
+using MessageBroker.Infrastructure.Redis.Builder.Configuration;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddMessageBrokerLoggerServices(LoggerType.DotnetLogger);
-builder.Services.AddMessageBrokerProducerServices(
-    new ProducerConfiguration { BootstrapServers = "localhost:9092" });
+
+switch (GlobalConfiguration.BrokerType)
+{
+    case MessageBrokerType.Kafka:
+        builder.Services.AddMessageBrokerProducerServicesKafka(
+            new KafkaProducerConfiguration
+            {
+                BootstrapServers = "localhost:9092"
+            });
+        break;
+    case MessageBrokerType.Redis:
+        builder.Services.AddMessageBrokerProducerServicesRedis(new RedisConfiguration
+        {
+            BootstrapServers = "127.0.0.1:6379"
+        });
+        break;
+    default:
+        throw new ArgumentOutOfRangeException();
+}
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

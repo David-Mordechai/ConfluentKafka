@@ -19,16 +19,14 @@ public class ConsumerService : IConsumerService
 
     public void Subscribe(string topic, CancellationToken cancellationToken)
     {
-        _consumer.Subscribe(topic);
-
         try
         {
-            _consumer.Consume(cancellationToken, consumeMessage =>
+            _consumer.Subscribe(topic, consumeMessage =>
             {
                 var (success, errorMessage) = _messageProcessor.Process(consumeMessage);
                 if (success is false)
                     _logger.LogError($"Fail to process message, {errorMessage}");
-            });
+            }, cancellationToken);
         }
         catch (Exception e)
         {

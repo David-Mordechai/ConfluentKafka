@@ -8,6 +8,9 @@ using MessageBroker.Infrastructure.Kafka;
 using MessageBroker.Infrastructure.Kafka.Builder;
 using MessageBroker.Infrastructure.Kafka.Builder.Configurations;
 using MessageBroker.Infrastructure.Logger;
+using MessageBroker.Infrastructure.Redis;
+using MessageBroker.Infrastructure.Redis.Builder;
+using MessageBroker.Infrastructure.Redis.Builder.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MessageBroker.Infrastructure.IocContainer;
@@ -30,20 +33,37 @@ public static class ServicesCollectionExtension
         }
     }
 
-    public static void AddMessageBrokerProducerServices(this IServiceCollection services, 
-        ProducerConfiguration producerConfiguration)
+    public static void AddMessageBrokerProducerServicesKafka(this IServiceCollection services, 
+        KafkaProducerConfiguration kafkaProducerConfiguration)
     {
         services.AddScoped<IProducerService, ProducerService>();
         services.AddScoped<IMessageValidator, StringMessageValidator>();
-        services.AddScoped(_ => new ProducerBuilderAdapter(producerConfiguration));
-        services.AddScoped<IProducerAdapter, ProducerAdapter>();
+        services.AddScoped(_ => new KafkaProducerBuilderAdapter(kafkaProducerConfiguration));
+        services.AddScoped<IProducerAdapter, KafkaProducerAdapter>();
     }
 
-    public static void AddMessageBrokerConsumerServices(this IServiceCollection services, 
-        ConsumerConfiguration consumerConfiguration)
+    public static void AddMessageBrokerConsumerServicesKafka(this IServiceCollection services, 
+        KafkaConsumerConfiguration kafkaConsumerConfiguration)
     {
         services.AddScoped<IConsumerService, ConsumerService>();
-        services.AddScoped(_ => new ConsumerBuilderAdapter(consumerConfiguration));
-        services.AddScoped<IConsumerAdapter, ConsumerAdapter>();
+        services.AddScoped(_ => new KafkaConsumerBuilderAdapter(kafkaConsumerConfiguration));
+        services.AddScoped<IConsumerAdapter, KafkaConsumerAdapter>();
+    }
+
+    public static void AddMessageBrokerProducerServicesRedis(this IServiceCollection services,
+        RedisConfiguration redisConfiguration)
+    {
+        services.AddScoped<IProducerService, ProducerService>();
+        services.AddScoped<IMessageValidator, StringMessageValidator>();
+        services.AddScoped(_ => new RedisBuilderAdapter(redisConfiguration));
+        services.AddScoped<IProducerAdapter, RedisProducerAdapter>();
+    }
+
+    public static void AddMessageBrokerConsumerServicesRedis(this IServiceCollection services,
+        RedisConfiguration redisConfiguration)
+    {
+        services.AddScoped<IConsumerService, ConsumerService>();
+        services.AddScoped(_ => new RedisBuilderAdapter(redisConfiguration));
+        services.AddScoped<IConsumerAdapter, RedisConsumerAdapter>();
     }
 }

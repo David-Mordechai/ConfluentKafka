@@ -1,6 +1,6 @@
 ﻿namespace MessageBroker.Infrastructure.Kafka.Builder.Configurations;
 
-public class ProducerConfiguration
+public class KafkaProducerConfiguration
 {
     public string? BootstrapServers { get; set; }
 }

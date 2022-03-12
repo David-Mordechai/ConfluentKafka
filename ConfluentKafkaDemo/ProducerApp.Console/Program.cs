@@ -1,14 +1,34 @@
-﻿using MessageBroker.Core.Models;
+﻿using MessageBroker.Core;
+using MessageBroker.Core.Enums;
+using MessageBroker.Core.Models;
 using MessageBroker.Core.Services.Interfaces;
 using MessageBroker.Infrastructure.IocContainer;
 using MessageBroker.Infrastructure.Kafka.Builder.Configurations;
+using MessageBroker.Infrastructure.Redis.Builder.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
-var config = new ProducerConfiguration { BootstrapServers = "localhost:9092" };
 
 var services = new ServiceCollection();
 services.AddMessageBrokerLoggerServices();
-services.AddMessageBrokerProducerServices(config);
+
+switch (GlobalConfiguration.BrokerType)
+{
+    case MessageBrokerType.Kafka:
+        services.AddMessageBrokerProducerServicesKafka(
+            new KafkaProducerConfiguration
+            {
+                BootstrapServers = "localhost:9092"
+            });
+        break;
+    case MessageBrokerType.Redis:
+        services.AddMessageBrokerProducerServicesRedis(new RedisConfiguration
+        {
+            BootstrapServers = "127.0.0.1:6379"
+        });
+        break;
+    default:
+        throw new ArgumentOutOfRangeException();
+}
+
 var serviceProvider = services.BuildServiceProvider();
 
 var producerService = serviceProvider.GetRequiredService<IProducerService>();

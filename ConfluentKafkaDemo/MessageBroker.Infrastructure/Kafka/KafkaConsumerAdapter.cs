@@ -5,31 +5,27 @@ using MessageBroker.Infrastructure.Kafka.Builder;
 
 namespace MessageBroker.Infrastructure.Kafka;
 
-internal class ConsumerAdapter : IConsumerAdapter
+internal class KafkaConsumerAdapter : IConsumerAdapter
 {
     private readonly IConsumer<Ignore, string> _consumer;
 
-    public ConsumerAdapter(ConsumerBuilderAdapter consumerBuilder)
+    public KafkaConsumerAdapter(KafkaConsumerBuilderAdapter kafkaConsumerBuilder)
     {
-        _consumer = consumerBuilder.Build();
+        _consumer = kafkaConsumerBuilder.Build();
     }
 
-    public void Subscribe(string topic)
+    public void Subscribe(string topic, Action<ConsumeResultModel> consumeMessageHandler, 
+        CancellationToken cancellationToken)
     {
         _consumer.Subscribe(topic);
-    }
-
-    public void Consume(CancellationToken cancellationToken, Action<ConsumeResultModel> consumeMessageHandler)
-    {
+        
         while (cancellationToken.IsCancellationRequested is false)
         {
             try
             {
                 var consumeResult = _consumer.Consume(cancellationToken);
                 var consumeResultModel = new ConsumeResultModel(
-                    Message: consumeResult.Message.Value,
-                    TopicPartitionOffset:
-                    $"{consumeResult.TopicPartitionOffset.Topic} [{consumeResult.TopicPartitionOffset.Partition}] @{consumeResult.TopicPartitionOffset.Offset}");
+                    Message: consumeResult.Message.Value);
                 consumeMessageHandler.Invoke(consumeResultModel);
             }
             catch (Exception ex)
