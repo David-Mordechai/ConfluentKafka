@@ -4,6 +4,7 @@ using MessageBroker.Core.Models;
 using MessageBroker.Core.Services.Interfaces;
 using MessageBroker.Infrastructure.IocContainer;
 using MessageBroker.Infrastructure.Kafka.Builder.Configurations;
+using MessageBroker.Infrastructure.RabbitMQ.Builder.Configuration;
 using MessageBroker.Infrastructure.Redis.Builder.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,6 +24,12 @@ switch (GlobalConfiguration.BrokerType)
         services.AddMessageBrokerProducerServicesRedis(new RedisConfiguration
         {
             BootstrapServers = "127.0.0.1:6379"
+        });
+        break;
+    case MessageBrokerType.RabbitMQ:
+        services.AddMessageBrokerProducerServicesRabbitMq(new RabbitMqConfiguration
+        {
+            BootstrapServers = "localhost"
         });
         break;
     default:

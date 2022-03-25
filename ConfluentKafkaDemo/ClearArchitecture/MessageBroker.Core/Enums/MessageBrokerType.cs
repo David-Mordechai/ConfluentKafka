@@ -3,5 +3,6 @@
 public enum MessageBrokerType
 {
     Kafka,
-    Redis
+    Redis,
+    RabbitMQ
 }

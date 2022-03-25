@@ -8,6 +8,9 @@ using MessageBroker.Infrastructure.Kafka;
 using MessageBroker.Infrastructure.Kafka.Builder;
 using MessageBroker.Infrastructure.Kafka.Builder.Configurations;
 using MessageBroker.Infrastructure.Logger;
+using MessageBroker.Infrastructure.RabbitMQ;
+using MessageBroker.Infrastructure.RabbitMQ.Builder;
+using MessageBroker.Infrastructure.RabbitMQ.Builder.Configuration;
 using MessageBroker.Infrastructure.Redis;
 using MessageBroker.Infrastructure.Redis.Builder;
 using MessageBroker.Infrastructure.Redis.Builder.Configuration;
@@ -65,5 +68,22 @@ public static class ServicesCollectionExtension
         services.AddScoped<IConsumerService, ConsumerService>();
         services.AddScoped(_ => new RedisBuilderAdapter(redisConfiguration));
         services.AddScoped<IConsumerAdapter, RedisConsumerAdapter>();
+    }
+
+    public static void AddMessageBrokerProducerServicesRabbitMq(this IServiceCollection services,
+        RabbitMqConfiguration rabbitMqConfiguration)
+    {
+        services.AddScoped<IProducerService, ProducerService>();
+        services.AddScoped<IMessageValidator, StringMessageValidator>();
+        services.AddScoped(_ => new RabbitMqBuilderAdapter(rabbitMqConfiguration));
+        services.AddScoped<IProducerAdapter, RabbitMqProducerAdapter>();
+    }
+
+    public static void AddMessageBrokerConsumerServicesRabbitMq(this IServiceCollection services,
+        RabbitMqConfiguration rabbitMqConfiguration)
+    {
+        services.AddScoped<IConsumerService, ConsumerService>();
+        services.AddScoped(_ => new RabbitMqBuilderAdapter(rabbitMqConfiguration));
+        services.AddScoped<IConsumerAdapter, RabbitMqConsumerAdapter>();
     }
 }

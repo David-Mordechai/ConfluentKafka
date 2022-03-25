@@ -8,6 +8,7 @@ using MessageBroker.Core.Enums;
 using MessageBroker.Core.Services.Interfaces;
 using MessageBroker.Infrastructure.IocContainer;
 using MessageBroker.Infrastructure.Kafka.Builder.Configurations;
+using MessageBroker.Infrastructure.RabbitMQ.Builder.Configuration;
 using MessageBroker.Infrastructure.Redis.Builder.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -43,6 +44,12 @@ public partial class App
                         services.AddMessageBrokerConsumerServicesRedis(new RedisConfiguration()
                         {
                             BootstrapServers = "127.0.0.1:6379"
+                        });
+                        break;
+                    case MessageBrokerType.RabbitMQ:
+                        services.AddMessageBrokerConsumerServicesRabbitMq(new RabbitMqConfiguration()
+                        {
+                            BootstrapServers = "localhost"
                         });
                         break;
                     default:

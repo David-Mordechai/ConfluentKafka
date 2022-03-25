@@ -29,5 +29,6 @@ public class RedisBuilderAdapter : IDisposable
     public void Dispose()
     {
         _redis?.Dispose();
+        GC.SuppressFinalize(this);
     }
 }
