@@ -57,7 +57,6 @@ namespace MessageBroker.Infrastructure.RabbitMQ
                     _ => new Exception(ex.Message)
                 };
             }
-            
         }
 
         public void Dispose()
